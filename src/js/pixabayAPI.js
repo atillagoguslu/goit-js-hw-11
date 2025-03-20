@@ -36,7 +36,13 @@ const fetchImages = async (query, page = 1) => {
     return data.hits;
   } catch (error) {
     console.error('Error fetching images:', error);
-    throw error;
+    iziToast.show({
+      ...iziToastSettings,
+      title: 'Error',
+      message: `🟥 We cannot reach the server. Please try again later. 🟥`,
+      color: 'red',
+    });
+    return [];
   }
 };
 
