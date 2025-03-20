@@ -2,6 +2,8 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import '../css/loader.css';
+import 'css-loader/dist/css-loader.css';
 
 const searchText = document.querySelector('[data-search-input]');
 const searchButton = document.querySelector('[data-search-button]');
@@ -32,10 +34,8 @@ const fetchImages = async (query, page = 1) => {
       `${BASE_URL}?key=${API_KEY}&q=${query}&page=${page}&${otherParams}`
     );
     const data = await response.json();
-    console.log('Gelen data:', data);
     return data.hits;
   } catch (error) {
-    console.error('Error fetching images:', error);
     iziToast.show({
       ...iziToastSettings,
       title: 'Error',
@@ -50,16 +50,16 @@ const fetchImages = async (query, page = 1) => {
 const handleSearch = async event => {
   event.preventDefault();
   gallerySection.innerHTML = `
-  <div class="loader">
-    <p>Loading...</p>
-  </div>
+    <div class="loader-container">
+      <div class="css-loader">
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+      </div>
+    </div>
   `;
-  // Loader text
-  const loader = document.querySelector('.loader');
-  if (loader) {
-    loader.style.display = 'flex';
-  }
-  // -----------------
 
   const query = searchText.value;
   try {
@@ -71,14 +71,15 @@ const handleSearch = async event => {
         message: `No images found with "${query}" query.`,
         color: 'red',
       });
+      gallerySection.innerHTML = '';
       return;
     }
     fetchedData = images;
-    console.log(images[0]);
     setGallery(images);
   } finally {
+    const loader = document.querySelector('.loader-container');
     if (loader) {
-      loader.style.display = 'none';
+      loader.remove();
     }
   }
 };
