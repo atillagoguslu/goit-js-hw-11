@@ -32,10 +32,8 @@ const fetchImages = async (query, page = 1) => {
       `${BASE_URL}?key=${API_KEY}&q=${query}&page=${page}&${otherParams}`
     );
     const data = await response.json();
-    console.log('Gelen data:', data);
     return data.hits;
   } catch (error) {
-    console.error('Error fetching images:', error);
     iziToast.show({
       ...iziToastSettings,
       title: 'Error',
@@ -74,7 +72,6 @@ const handleSearch = async event => {
       return;
     }
     fetchedData = images;
-    console.log(images[0]);
     setGallery(images);
   } finally {
     if (loader) {
