@@ -69,10 +69,10 @@ const handleSearch = async event => {
     }
     fetchedData = images;
     console.log(images[0]);
-    // setGallery(images);
+    setGallery(images);
   } finally {
     if (loader) {
-      // loader.style.display = 'none';
+      loader.style.display = 'none';
     }
   }
 };
